@@ -6,12 +6,12 @@ var mkindex=require("./mkindex");
 
 var argv=process.argv;
 
-if(argv<2){
+if(argv.length<2){
 	console.log("Usage: spfa [command]");
 	console.log("spfa g : generate files");
 	console.log("spfa s : start server");
-}else if(argv==2){
-	if(argv[2]=="g"){
+}else if(argv.length==2){
+	if(argv[1]=="g"){
 
 	}
 }
