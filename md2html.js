@@ -14,9 +14,21 @@ var back="</body></html>";
 
 var cssfront="<link rel='stylesheet' type='text/css' href='";
 var cssback="'>";
-var hlList=["vs2015"];
-var defaultCss="vs2015";
-module.exports.md2html=function(from,to,title,style){
+
+function wrap(front,inner,back){
+	return front+inner+back;
+}
+
+function convert(string,title){
+	var data=wrap(header1,title,header2);
+
+	data+=wrap(cssfront,"../lib/"+"vs2015"+".css",cssback);
+	data+=wrap(header3,marked(string),back);
+	
+	return data;
+}
+
+module.exports.md2html=function(from,to,title){
 	var f=fs.createReadStream(from);
 	var chunks=[];
 	var size=0;
@@ -32,26 +44,7 @@ module.exports.md2html=function(from,to,title,style){
 			if(err){
 				throw err;
 			}
-			var data="";
-			data+=header1;
-			if(title){
-				data+=title;
-			}else{
-				data+="title";
-			}
-			data+=header2;
-			
-			data+=cssfront;
-			if(hlList.indexOf(style)!==-1){
-				data+="../lib/"+style+".css";
-			}else{
-				data+="../lib/"+defaultCss+".css";
-			}
-			data+=cssback;
-
-			data+=header3;
-			data+=marked(fdata);
-			data+=back;
+			var data=convert(fdata,title);
 			fs.appendFile(fd,data,"utf-8",(err)=>{
 				fs.close(fd,(err)=>{
 					if(err){
