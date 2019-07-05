@@ -18,7 +18,7 @@ module.exports.cpdir=function(from,to){
                 if(st.isFile()){
                     fs.copyFile(_from,_to,"w",function(err){
                         if(err){
-                            throw err;
+                            console.log(err.toString());
                         }
                         console.log("Copying "+_from+" to "+_to);
                     });
