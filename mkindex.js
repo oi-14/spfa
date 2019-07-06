@@ -13,21 +13,19 @@ function wrap(front,inner,back){
 	return front+inner+back;
 }
 
-function index(list){
-    console.log(list);
-    var css="";
+function index(flist){
+    var css="<link rel='stylesheet' type='text/css' href='lib/spfa.css'>";
     var data=wrap(header1,css,header2);
-    for(var i=0;i<list.length;i++){
-        var file=list[i];
+    for(var i=0;i<flist.length;i++){
+        var file=flist[i];
         var name=file.replace(".html","");
 
         var linka=wrap(link1,file,link2);
         linka=wrap(linka,name,link3);
-
+        
         data+=linka;
     }
     data+=back;
-    console.log(data);
     return data;
 }
 

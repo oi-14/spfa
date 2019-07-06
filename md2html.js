@@ -21,7 +21,8 @@ function wrap(front,inner,back){
 
 function convert(string,title){
 	var data=wrap(header1,title,header2);
-
+	
+	data+=wrap(cssfront,"../lib/"+"spfa"+".css",cssback);
 	data+=wrap(cssfront,"../lib/"+"vs2015"+".css",cssback);
 	data+=wrap(header3,marked(string),back);
 	

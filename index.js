@@ -38,6 +38,7 @@ if(argv.length<=2){
 		app.use("/",serveStatic(process.cwd()+"/public"));
 		var server=app.listen(3000);
 		console.log("Server is running on http://localhost:3000/");
+		console.log("Press ^C to stop.");
 	}else if(argv[2]==="i"||argv[2]==="init"){
 		if(checker.check(process.cwd())){
 			console.log("Already exsist!");
