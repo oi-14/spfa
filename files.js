@@ -36,18 +36,18 @@ module.exports.ls=function(dir,suffix){
 	
 	var files=fs.readdirSync(dir);
 	match=files.filter(function(file){
-		return path.extname(file)===suffix;
+        return path.extname(file)===suffix;
 	});
 	
 	return match;
 };
 
-module.exports.exsist=function(file){
+module.exports.exist=function(file){
     return fs.existsSync(file);
 };
 
 module.exports.mkdir=function(dir){
-    if(this.exsist(dir)){
+    if(this.exist(dir)){
         console.log("DIRECTORY already exist!");
         return;
     }
