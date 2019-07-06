@@ -1,4 +1,5 @@
 var fs=require("fs");
+var path=require("path");
 
 module.exports.cpdir=function(from,to){
     fs.readdir(from,function(err,paths){
@@ -28,4 +29,31 @@ module.exports.cpdir=function(from,to){
             });
         });
     });
+};
+
+module.exports.ls=function(dir,suffix){
+	var match=[];
+	
+	var files=fs.readdirSync(dir);
+	match=files.filter(function(file){
+		return path.extname(file)===suffix;
+	});
+	
+	return match;
+};
+
+module.exports.exsist=function(file){
+    return fs.existsSync(file);
+};
+
+module.exports.mkdir=function(dir){
+    if(this.exsist(dir)){
+        console.log("DIRECTORY already exist!");
+        return;
+    }
+    fs.mkdirSync(dir);
+};
+
+module.exports.write=function(file,data,encoding){
+    fs.writeFileSync(file,data,encoding);
 };

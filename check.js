@@ -1,4 +1,4 @@
-var fs=require("fs");
+var files=require("./files");
 module.exports.check=function(dir){
-    return fs.existsSync(dir+"/SPFA.tag");
+    return files.exist(dir+"/SPFA.tag");
 };

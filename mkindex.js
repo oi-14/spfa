@@ -1,5 +1,5 @@
 var fs=require("fs");
-var ls=require("./ls");
+var files=require("./files");
 
 var header1="<!DOCTYPE html><html><head><title>Welcome!</title>";
 var header2="<meta charset='utf-8'></head><body><h1>Welcome!</h1>";
@@ -32,8 +32,8 @@ function index(list){
 }
 
 module.exports.mkindex=function(location,src){
-    var files=ls.ls(src,".html");
-    var page=index(files);
+    var f=files.ls(src,".html");
+    var page=index(f);
     try{
         fs.writeFileSync(location,page);
     }catch(err){
