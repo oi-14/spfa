@@ -30,36 +30,12 @@ function convert(string,title){
 }
 
 module.exports.md2html=function(from,to,title){
-	var f=fs.createReadStream(from);
-	var chunks=[];
-	var size=0;
-	f.on("data",function(chunk){
-		chunks.push(chunk);
-		size+=chunk.length;
-	});
-	var fdata;
-	f.on("end",function(){
-		var buff=Buffer.concat(chunks,size);
-		fdata=buff.toString();
-		fs.open(to,"w",(err,fd)=>{
-			if(err){
-				throw err;
-			}
-			var data=convert(fdata,title);
-			fs.appendFile(fd,data,"utf-8",(err)=>{
-				fs.close(fd,(err)=>{
-					if(err){
-						throw err;
-					}
-				});
-				if(err){
-					throw err;
-				}
-			});
-		});
-	});
-	
-	
+	var f=fs.readFileSync(from);
+	f=f.toString();
+	var file=fs.openSync(to,"w");
+	var data=convert(f,title);
+	fs.appendFileSync(file,data,"utf8");
+	fs.closeSync(file);
 	console.log("Generating "+to);
 };
 
