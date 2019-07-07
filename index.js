@@ -14,12 +14,18 @@ if(argv.length<=2){
 	console.log("spfa i : initialize spfa");
 	console.log("spfa g : generate files");
 	console.log("spfa s : start server");
+	console.log("spfa c : clean cache");
 }else{
+	console.log("Process started.");
 	if(argv[2]==="g"||argv[2]==="generate"){
 		if(!checker.check(process.cwd())){
-			console.log("Please init first");
+			console.log("Please init first.");
 			return;
 		}
+		files.mkdir(process.cwd()+"/public");
+		files.mkdir(process.cwd()+"/public/post");
+		files.mkdir(process.cwd()+"/public/lib");
+
 		var postdir=process.cwd()+"/post";
 		var list=files.ls(postdir,".md");
 		for(var i=0;i<list.length;i++){
@@ -28,10 +34,12 @@ if(argv.length<=2){
 			md2html.md2html(process.cwd()+"/post/"+item,process.cwd()+"/public/post/"+name+".html",name);
 		}
 		mkindex.mkindex(process.cwd()+"/public/index.html",process.cwd()+"/public/post");
+		console.log("generating /public/index.html");
 		files.cpdir(process.cwd()+"/lib",process.cwd()+"/public/lib");
+		console.log("finished!");
 	}else if(argv[2]==="s"||argv[2]==="server"){
 		if(!checker.check(process.cwd())){
-			console.log("Please init first");
+			console.log("Please init first.");
 			return;
 		}
 		var app=connect(); 
@@ -53,5 +61,13 @@ if(argv.length<=2){
 		files.mkdir(process.cwd()+"/post");
 		
 		files.cpdir("lib",process.cwd()+"/lib");
+		console.log("finished!");
+	}else if(argv[2]==="c"||argv[2]==="clean"){
+		files.rmdir(process.cwd()+"/public");
+		console.log("cleaning /public");
+		files.mkdir(process.cwd()+"/public");
+		files.mkdir(process.cwd()+"/public/post");
+		files.mkdir(process.cwd()+"/public/lib");
+		console.log("finished!");
 	}
 }
