@@ -57,3 +57,27 @@ module.exports.mkdir=function(dir){
 module.exports.write=function(file,data,encoding){
     fs.writeFileSync(file,data,encoding);
 };
+
+module.exports.stat=function(file){
+    return fs.statSync(file);
+};
+
+module.exports.rm=function(file){
+    fs.unlinkSync(file);
+};
+
+module.exports.rmdir=function(fpath){
+    var files=[];
+    if(this.exist(fpath)){
+        files=fs.readdirSync(fpath);
+        file.forEach((file,index)=>{
+            var curPath=fpath+"/"+file;
+            if(this.stat(curPath).isDirectory()){
+                this.rmdir(curPath);
+            }else{
+                this.rm(curPath);
+            }
+        });
+        fs.rmdirSync(fpath);
+    }
+};

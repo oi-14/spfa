@@ -15,9 +15,18 @@ A blog generator.
 - md2html: convert .md files to .html
 - mkindex: make index.html
 
-## what is in /lib
 
-css styles,and maybe js?
+## the directories
+
+/lib : for css and js
+
+/post : for your post markdowns
+
+/public : the html and style you will publish
+
+/public/lib : a copy of /lib
+
+/public/post : your posts in html form
 
 ## How to use
 
@@ -29,3 +38,7 @@ css styles,and maybe js?
 6. Open your browser and go to **https://localhost:3000**
 7. Go to the public folder and your file is the html one
 8. You're done! (convenient, isn't it)
+
+#### This page is made using SPFA!
+
+Github: https://github.com/oi-14/spfa
