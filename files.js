@@ -2,38 +2,24 @@ var fs=require("fs");
 var path=require("path");
 
 module.exports.cpdir=function(from,to){
-    fs.readdir(from,function(err,paths){
-        if(err){
-            throw err;
+    var paths=fs.readdirSync(from);
+    paths.forEach(function(path){
+        var _from=from+'/'+path;
+        var _to=to+'/'+path;
+        var readable;
+        var writable;
+        var st=fs.statSync(_from);
+        if(st.isFile()){
+            fs.copyFileSync(_from,_to,"w");
+            console.log("Copying "+_from+" to "+_to);
+        }else if(st.isDirectory()){
+            cpdir(_from,_to);
         }
-        paths.forEach(function(path){
-            var _from=from+'/'+path;
-            var _to=to+'/'+path;
-            var readable;
-            var writable;
-            fs.stat(_from,function(err,st){
-                if(err){
-                    throw err;
-                }
-                
-                if(st.isFile()){
-                    fs.copyFile(_from,_to,"w",function(err){
-                        if(err){
-                            console.log(err.toString());
-                        }
-                        console.log("Copying "+_from+" to "+_to);
-                    });
-                }else if(st.isDirectory()){
-                    cpdir(_from,_to);
-                }
-            });
-        });
     });
 };
 
 module.exports.ls=function(dir,suffix){
 	var match=[];
-	
 	var files=fs.readdirSync(dir);
 	match=files.filter(function(file){
         return path.extname(file)===suffix;
@@ -70,7 +56,7 @@ module.exports.rmdir=function(fpath){
     var files=[];
     if(this.exist(fpath)){
         files=fs.readdirSync(fpath);
-        file.forEach((file,index)=>{
+        files.forEach((file,index)=>{
             var curPath=fpath+"/"+file;
             if(this.stat(curPath).isDirectory()){
                 this.rmdir(curPath);

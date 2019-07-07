@@ -33,10 +33,12 @@ if(argv.length<=2){
 			var name=item.replace(".md","");
 			md2html.md2html(process.cwd()+"/post/"+item,process.cwd()+"/public/post/"+name+".html",name);
 		}
+		
 		mkindex.mkindex(process.cwd()+"/public/index.html",process.cwd()+"/public/post");
 		console.log("generating /public/index.html");
 		files.cpdir(process.cwd()+"/lib",process.cwd()+"/public/lib");
 		console.log("finished!");
+		
 	}else if(argv[2]==="s"||argv[2]==="server"){
 		if(!checker.check(process.cwd())){
 			console.log("Please init first.");
@@ -60,7 +62,7 @@ if(argv.length<=2){
 		files.mkdir(process.cwd()+"/lib");
 		files.mkdir(process.cwd()+"/post");
 		
-		files.cpdir("lib",process.cwd()+"/lib");
+		files.cpdir(__dirname+"/lib",process.cwd()+"/lib");
 		console.log("finished!");
 	}else if(argv[2]==="c"||argv[2]==="clean"){
 		files.rmdir(process.cwd()+"/public");
