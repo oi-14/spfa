@@ -40,8 +40,13 @@ module.exports.mkdir=function(dir){
     fs.mkdirSync(dir);
 };
 
+
 module.exports.write=function(file,data,encoding){
-    fs.writeFileSync(file,data,encoding);
+    fs.readFileSync(file,data,encoding);
+};
+
+module.exports.write=function(file,encoding){
+    fs.writeFileSync(file,encoding);
 };
 
 module.exports.stat=function(file){

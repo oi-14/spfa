@@ -36,7 +36,12 @@ if(argv.length<=2){
 		
 		mkindex.mkindex(process.cwd()+"/public/index.html",process.cwd()+"/public/post");
 		console.log("generating /public/index.html");
-		files.cpdir(process.cwd()+"/lib",process.cwd()+"/public/lib");
+		try {
+			files.cpdir(process.cwd()+"/lib",process.cwd()+"/public/lib");
+		} catch (error) {
+			console.error(error.toString());
+		}
+		
 		console.log("finished!");
 		
 	}else if(argv[2]==="s"||argv[2]==="server"){
@@ -61,8 +66,11 @@ if(argv.length<=2){
 		files.mkdir(process.cwd()+"/public/lib");
 		files.mkdir(process.cwd()+"/lib");
 		files.mkdir(process.cwd()+"/post");
-		
-		files.cpdir(__dirname+"/lib",process.cwd()+"/lib");
+		try {
+			files.cpdir(__dirname+"/lib",process.cwd()+"/lib");
+		} catch (error) {
+			console.error(error.toString());
+		}
 		console.log("finished!");
 	}else if(argv[2]==="c"||argv[2]==="clean"){
 		files.rmdir(process.cwd()+"/public");
