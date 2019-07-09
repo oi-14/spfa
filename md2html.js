@@ -30,7 +30,7 @@ function convert(string,title){
 }
 
 module.exports.md2html=function(from,to,title){
-	var f=fs.readFileSync(from);
+	var f=files.read(from);
 	f=f.toString();
 	var file=fs.openSync(to,"w");
 	var data=convert(f,title);
