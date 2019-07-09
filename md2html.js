@@ -1,5 +1,6 @@
 var marked = require("marked");
 var fs=require("fs");
+var files=require("./files");
 var highlight = require("highlight.js");
 marked.setOptions({
     highlight: function (code) {
@@ -32,10 +33,8 @@ function convert(string,title){
 module.exports.md2html=function(from,to,title){
 	var f=files.read(from);
 	f=f.toString();
-	var file=fs.openSync(to,"w");
 	var data=convert(f,title);
-	fs.appendFileSync(file,data,"utf8");
-	fs.closeSync(file);
+	files.write(to,data,"utf8");
 	console.log("Generating "+to);
 };
 
