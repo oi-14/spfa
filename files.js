@@ -45,7 +45,7 @@ module.exports.write=function(file,data,encoding){
     fs.readFileSync(file,data,encoding);
 };
 
-module.exports.write=function(file,encoding){
+module.exports.read=function(file,encoding){
     fs.writeFileSync(file,encoding);
 };
 
