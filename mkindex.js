@@ -16,6 +16,8 @@ function wrap(front,inner,back){
 function index(flist){
     var css="<link rel='stylesheet' type='text/css' href='lib/spfa.css'>";
     var data=wrap(header1,css,header2);
+    data+="<input id='search-name' type='text'>";
+    data+="<button id='search-btn'>go!</button>";
     for(var i=0;i<flist.length;i++){
         var file=flist[i];
         var name=file.replace(".html","");
@@ -25,6 +27,8 @@ function index(flist){
         
         data+=linka;
     }
+    data+="<script src='lib/jquery-3.4.1.js'></script>";
+    data+="<script src='lib/search.js'></script>";
     data+=back;
     return data;
 }
