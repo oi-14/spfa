@@ -1,5 +1,4 @@
 var marked = require("marked");
-var fs=require("fs");
 var files=require("./files");
 var highlight = require("highlight.js");
 marked.setOptions({

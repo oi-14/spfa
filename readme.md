@@ -7,6 +7,7 @@ A blog generator.
 - spfa g (generate) generate files
 - spfa s (server) build server on localhost:3000
 - spfa i (init) initialize spfa
+- spfa c (clean) clean /public
 
 ## libs
 
@@ -14,7 +15,6 @@ A blog generator.
 - check: check the SPFA.tag exist
 - md2html: convert .md files to .html
 - mkindex: make index.html
-
 
 ## the directories
 
@@ -31,14 +31,14 @@ A blog generator.
 ## How to use
 
 1. Go to the terminal
-2. Enter **npm install spfa -g** (use **sudo** if necessary?)
+2. Enter **npm install spfa@latest -g** (use **sudo** if necessary?)
 3. Go to post (not the post inside the public folder)
-4. make a Markdown file inside
+4. put Markdown file inside
 5. Enter **spfa i**, **spfa g**, **spfa s**
 6. Open your browser and go to **https://localhost:3000**
 7. Go to the public folder and your file is the html one
 8. You're done! (convenient, isn't it)
 
-#### This page is made using SPFA!
+## This page is made using SPFA
 
 Github: https://github.com/oi-14/spfa
