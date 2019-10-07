@@ -6,6 +6,7 @@ module.exports.cp = function (from, to) {
         fs.copyFileSync(from, to, "w");
         console.log("Copying " + from + " to " + to);
     }
+
 };
 
 module.exports.cpdir = function (from, to) {
@@ -15,11 +16,10 @@ module.exports.cpdir = function (from, to) {
         var _to = to + '/' + path;
         var st = fs.statSync(_from);
         if (st.isFile()) {
-            module.exports.cp(_from, _to, "w");
+            fs.copyFileSync(_from, _to, "w");
             console.log("Copying " + _from + " to " + _to);
         } else if (st.isDirectory()) {
-            module.exports.mkdir(_to);
-            module.exports.cpdir(_from, _to);
+            cpdir(_from, _to);
         }
     });
 };
