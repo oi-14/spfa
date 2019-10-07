@@ -37,7 +37,7 @@ module.exports.mkindex=function(location,src){
     var f=files.ls(src,".html");
     var page=index(f);
     try{
-        fs.writeFileSync(location,page);
+        files.write(location,page);
     }catch(err){
         console.error(err.toString());
     }
