@@ -8,7 +8,7 @@ var mkindex = require("./mkindex");
 var files = require("./files");
 var yaml = require("./yaml");
 
-var version = "0.1.7";
+var version = "0.1.8";
 var argv = process.argv;
 
 function usage() {
