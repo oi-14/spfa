@@ -3,12 +3,10 @@
 var fs = require("fs");
 var connect = require("connect");
 var serveStatic = require("serve-static");
-var md2html = require("./md2html");
-var mkindex = require("./mkindex");
 var files = require("./files");
 var yaml = require("./yaml");
 
-var version = "0.1.7";
+var version = "0.1.8";
 var argv = process.argv;
 
 function usage() {
@@ -26,7 +24,25 @@ function generate() {
 	}
 	var config = yaml.read(process.cwd() + "/config.yaml");
 	console.log(config);
-	var codeTheme;
+	var theme;
+	try {
+		theme = config.theme ? config.theme : "default";
+	} catch (error) {
+		console.log("Detected error in config.yaml");
+		console.log("Please check the configuration of config.yaml");
+		console.log("Using default theme");
+		theme = "default";
+	}
+	var theme_gen;
+	try {
+		theme_gen = require(process.cwd() + "/theme/" + theme + "/index");
+	} catch (error) {
+		console.log("No such theme named "+theme+"!");
+		console.log(error);
+		return;
+	}
+	theme_gen.gen(process.cwd());
+	/*var codeTheme;
 	try {
 		codeTheme = (config.codeTheme) ? (config.codeTheme) : "vs2015";
 	} catch (error) {
@@ -59,7 +75,7 @@ function generate() {
 		files.cpdir(process.cwd() + "/lib", process.cwd() + "/public/lib");
 	} catch (error) {
 		console.error(error.toString());
-	}
+	}*/
 
 	console.log("finished!");
 }
@@ -88,16 +104,21 @@ function init() {
 		console.error(error.toString());
 	}
 
-
 	files.mkdir(process.cwd() + "/public");
 	files.mkdir(process.cwd() + "/public/post");
 	files.mkdir(process.cwd() + "/public/lib");
+	files.mkdir(process.cwd() + "/theme");
 	files.mkdir(process.cwd() + "/lib");
 	files.mkdir(process.cwd() + "/post");
 	try {
 		files.cpdir(__dirname + "/lib", process.cwd() + "/lib");
 	} catch (error) {
 		console.error(error.toString());
+	}
+	try {
+		files.cpdir(__dirname + "/theme", process.cwd() + "/theme");
+	} catch (error) {
+		console.error(error);
 	}
 	console.log("finished!");
 }
