@@ -4,12 +4,12 @@ A blog generator.
 
 ## Usage
 
-          command           |            effect
-:-------------------------: | :--------------------------:
-`spfa generate` or `spfa g` |     generate HTML files
- `spfa server` or `spfa s`  | run server on localhost:3000
-  `spfa init` or `spfa i`   |  initialize spfa repository
- `spfa clean` or `spfa c`   |    clean generated files
+|          command           |            effect           |
+|:-------------------------: | :--------------------------:|
+|`spfa generate` or `spfa g` |     generate HTML files     |
+| `spfa server` or `spfa s`  | run server on localhost:3000|
+|  `spfa init` or `spfa i`   |  initialize spfa repository |
+| `spfa clean` or `spfa c`   |    clean generated files    |
 
 ## How to use it
 
