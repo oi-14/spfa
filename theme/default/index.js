@@ -1,6 +1,7 @@
 var files = require("./files");
 var md2html = require("./md2html");
 var mkindex = require("./mkindex");
+var yaml = require("./yaml");
 
 module.exports.gen = function DFGenerate(path) {
     if (!files.exist(path + "/SPFA.tag")) {

@@ -48,11 +48,11 @@ module.exports.mkdir = function (dir) {
 
 
 module.exports.write = function (file, data, encoding) {
-    return fs.writeFileSync(file, data, encoding);
+    fs.writeFileSync(file, data, encoding);
 };
 
 module.exports.read = function (file, encoding) {
-    fs.readFileSync(file, encoding);
+    return fs.readFileSync(file, encoding);
 };
 
 module.exports.stat = function (file) {

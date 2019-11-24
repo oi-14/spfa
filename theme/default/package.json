@@ -1,0 +1,16 @@
+{
+  "name": "spfa-theme-default",
+  "version": "0.0.1",
+  "description": "default theme for spfa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "highlight.js": "^9.16.2",
+    "marked": "^0.7.0",
+    "yamljs": "^0.3.0"
+  }
+}
