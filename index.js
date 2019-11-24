@@ -42,42 +42,7 @@ function generate() {
 		return;
 	}
 	theme_gen.gen(process.cwd());
-	/*var codeTheme;
-	try {
-		codeTheme = (config.codeTheme) ? (config.codeTheme) : "vs2015";
-	} catch (error) {
-		console.log("Detected error in config.yaml");
-		console.log("Please check the config.yaml again");
-		console.log("Use default code theme vs2015");
-		codeTheme = "vs2015";
-	}
-
-
-	files.mkdir(process.cwd() + "/public");
-	files.mkdir(process.cwd() + "/public/post");
-	files.mkdir(process.cwd() + "/public/lib");
-
-	var postdir = process.cwd() + "/post";
-	var list = files.ls(postdir, ".md");
-	for (var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var name = item.replace(".md", "");
-		md2html.md2html(
-			process.cwd() + "/post/" + item,
-			process.cwd() + "/public/post/" + name + ".html",
-			name, codeTheme);
-	}
-
-	mkindex.mkindex(
-		process.cwd() + "/public/index.html", process.cwd() + "/public/post");
-	console.log("generating /public/index.html");
-	try {
-		files.cpdir(process.cwd() + "/lib", process.cwd() + "/public/lib");
-	} catch (error) {
-		console.error(error.toString());
-	}*/
-
-	console.log("finished!");
+	console.log("Finished!");
 }
 
 function server() {

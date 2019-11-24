@@ -1,6 +1,5 @@
 var marked = require("marked");
 var files = require("./files");
-var yaml = require("./yaml");
 var highlight = require("highlight.js");
 marked.setOptions({
 	highlight: function (code) {
@@ -31,6 +30,7 @@ function convert(string, title, style) {
 }
 
 module.exports.md2html = function (from, to, title, theme) {
+	console.log(from);
 	var f = files.read(from);
 	f = f.toString();
 	var data = convert(f, title, theme);
