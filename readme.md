@@ -1,44 +1,30 @@
-# SPFA
+# SPFA - SimPle and FAst
 
 A blog generator.
 
 ## Usage
 
-- spfa g (generate) generate files
-- spfa s (server) build server on localhost:3000
-- spfa i (init) initialize spfa
-- spfa c (clean) clean /public
+          command           |            effect
+:-------------------------: | :--------------------------:
+`spfa generate` or `spfa g` |     generate HTML files
+ `spfa server` or `spfa s`  | run server on localhost:3000
+  `spfa init` or `spfa i`   |  initialize spfa repository
+ `spfa clean` or `spfa c`   |    clean generated files
 
-## libs
+## How to use it
 
-- file: for file operations
-- check: check the SPFA.tag exist
-- md2html: convert .md files to .html
-- mkindex: make index.html
+1. Enter `npm install spfa@latest -g` (maybe need to use `sudo`)
 
-## the directories
+2. Open a new directory
 
-/lib : for css and js
+3. `spfa init` or `spfa i`
 
-/post : for your post markdowns
+4. Switch to post directory (not the post inside the public directory)
 
-/public : the html and style you will publish
+5. Put your Markdown files inside it
 
-/public/lib : a copy of /lib
+6. Run `spfa g`
 
-/public/post : your posts in html form
+7. Done! (Very simple, isn't it?)
 
-## How to use
-
-1. Go to the terminal
-2. Enter **npm install spfa@latest -g** (use **sudo** if necessary?)
-3. Go to post (not the post inside the public folder)
-4. put Markdown file inside
-5. Enter **spfa i**, **spfa g**, **spfa s**
-6. Open your browser and go to **https://localhost:3000**
-7. Go to the public folder and your file is the html one
-8. You're done! (convenient, isn't it)
-
-## This page is made using SPFA
-
-Github: https://github.com/oi-14/spfa
+[Github repository ->](https://github.com/oi-14/spfa)
