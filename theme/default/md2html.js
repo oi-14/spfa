@@ -1,5 +1,6 @@
 var marked = require("marked");
 var files = require("./files");
+var yaml = require("./yaml");
 var highlight = require("highlight.js");
 marked.setOptions({
 	highlight: function (code) {
