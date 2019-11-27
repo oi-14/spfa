@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var fs = require("fs");
+var childProcess = require("child_process");
 var connect = require("connect");
 var serveStatic = require("serve-static");
 var files = require("./files");
@@ -26,22 +26,26 @@ function generate() {
 	console.log(config);
 	var theme;
 	try {
-		theme = config.theme ? config.theme : "default";
+		theme = config.theme ? config.theme : "spfa-theme-default";
 	} catch (error) {
 		console.log("Detected error in config.yaml");
 		console.log("Please check the configuration of config.yaml");
 		console.log("Using default theme");
-		theme = "default";
+		theme = "spfa-theme-default";
 	}
 	var theme_gen;
 	try {
-		theme_gen = require(process.cwd() + "/theme/" + theme + "/index");
+		theme_gen = require(theme);
 	} catch (error) {
-		console.log("No such theme named "+theme+"!");
-		console.log(error);
+		console.log("Theme doesn't exist or not installed !");
 		return;
 	}
-	theme_gen.gen(process.cwd());
+	try {
+		theme_gen.gen(process.cwd());
+	} catch (error) {
+		console.log("Invalid theme!");
+		return;
+	}
 	console.log("Finished!");
 }
 
@@ -64,7 +68,8 @@ function init() {
 	}
 	files.write(process.cwd() + "/SPFA.tag", "SPFA v" + version, "utf8");
 	try {
-		files.cp(__dirname + "/config/config.yaml", process.cwd() + "/config.yaml");
+		files.cpdir(__dirname + "/config", process.cwd());
+		childProcess.exec('"'+"npm install"+'"');
 	} catch (error) {
 		console.error(error.toString());
 	}
