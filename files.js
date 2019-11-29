@@ -65,14 +65,14 @@ module.exports.rm = function (file) {
 
 module.exports.rmdir = function (fpath) {
     var files = [];
-    if (this.exist(fpath)) {
+    if (module.exports.exist(fpath)) {
         files = fs.readdirSync(fpath);
-        files.forEach(function (file, index) {
+        files.forEach(function (file, _index) {
             var curPath = fpath + "/" + file;
-            if (this.stat(curPath).isDirectory()) {
-                this.rmdir(curPath);
+            if (module.exports.stat(curPath).isDirectory()) {
+                module.exports.rmdir(curPath);
             } else {
-                this.rm(curPath);
+                module.exports.rm(curPath);
             }
         });
         fs.rmdirSync(fpath);
