@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var childProcess = require("child_process");
 var connect = require("connect");
 var serveStatic = require("serve-static");
 var files = require("./files");
@@ -35,7 +34,7 @@ function generate() {
 	}
 	var theme_gen;
 	try {
-		theme_gen = require(theme);
+		theme_gen = require(process.cwd()+"/node_modules/"+theme);
 	} catch (error) {
 		console.log("Theme doesn't exist or not installed !");
 		return;
@@ -69,7 +68,6 @@ function init() {
 	files.write(process.cwd() + "/SPFA.tag", "SPFA v" + version, "utf8");
 	try {
 		files.cpdir(__dirname + "/config", process.cwd());
-		childProcess.exec('"'+"npm install"+'"');
 	} catch (error) {
 		console.error(error.toString());
 	}
@@ -80,17 +78,8 @@ function init() {
 	files.mkdir(process.cwd() + "/theme");
 	files.mkdir(process.cwd() + "/lib");
 	files.mkdir(process.cwd() + "/post");
-	try {
-		files.cpdir(__dirname + "/lib", process.cwd() + "/lib");
-	} catch (error) {
-		console.error(error.toString());
-	}
-	try {
-		files.cpdir(__dirname + "/theme", process.cwd() + "/theme");
-	} catch (error) {
-		console.error(error);
-	}
 	console.log("finished!");
+	console.log("Please run 'npm install' to install requirements");
 }
 
 function clean() {
@@ -99,6 +88,17 @@ function clean() {
 	files.mkdir(process.cwd() + "/public");
 	files.mkdir(process.cwd() + "/public/post");
 	files.mkdir(process.cwd() + "/public/lib");
+	console.log("finished!");
+}
+
+function remove() {
+	console.log("removing / ...");
+	try {
+		files.rmdir(process.cwd());
+		files.mkdir(process.cwd());
+	} catch (error) {
+		console.log("removed!");
+	}
 	console.log("finished!");
 }
 
@@ -116,4 +116,6 @@ if (argv[2] === "g" || argv[2] === "generate") {
 	init();
 } else if (argv[2] === "c" || argv[2] === "clean") {
 	clean();
+} else if (argv[2] === "rm" || argv[2] === "remove") {
+	remove();
 }
