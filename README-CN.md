@@ -6,7 +6,7 @@
 
 ## 安装
 
-运行 `npm install spfa @ latest -g`（可能需要使用`sudo`）
+运行 `npm install spfa@latest -g`（可能需要使用`sudo`）
 
 ## 基本命令
 
