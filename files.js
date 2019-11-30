@@ -39,7 +39,7 @@ module.exports.exist = function (file) {
 };
 
 module.exports.mkdir = function (dir) {
-    if (this.exist(dir)) {
+    if (module.exports.exist(dir)) {
         console.log("DIRECTORY already exist!");
         return;
     }
