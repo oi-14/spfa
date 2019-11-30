@@ -42,6 +42,7 @@ function generate() {
 	try {
 		theme_gen.gen(process.cwd());
 	} catch (error) {
+		console.log(error);
 		console.log("Invalid theme!");
 		return;
 	}
