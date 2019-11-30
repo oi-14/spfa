@@ -92,6 +92,10 @@ function clean() {
 }
 
 function remove() {
+	if (!files.exist(process.cwd() + "/SPFA.tag")) {
+		console.log("Please init first.");
+		return;
+	}
 	console.log("removing / ...");
 	try {
 		files.rmdir(process.cwd());
