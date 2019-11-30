@@ -4,7 +4,7 @@
     "description": "blog",
     "main": "index.js",
     "dependencies": {
-      "spfa-theme-default": "0.0.2"
+      "spfa-theme-default": "latest"
     },
     "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1"
