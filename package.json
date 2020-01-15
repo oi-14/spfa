@@ -8,8 +8,14 @@
     "serve-static": "^1.14.1",
     "yamljs": "^0.3.0"
   },
+  "devDependencies": {
+    "mocha": "^7.0.0",
+    "nyc": "^15.0.0",
+    "should": "^13.2.3"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --recursive --reporter spec",
+    "coverage": "nyc --reporter html --reporter text npm test"
   },
   "bin": "index.js",
   "author": "oi-14",
