@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.96% </span>
+                <span class="strong">57.78% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/46</span>
+                <span class='fraction'>26/45</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.67% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/12</span>
+                <span class='fraction'>4/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">23.08% </span>
+                <span class="strong">46.15% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/13</span>
+                <span class='fraction'>6/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.96% </span>
+                <span class="strong">57.78% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/46</span>
+                <span class='fraction'>26/45</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -150,8 +150,7 @@
 <a name='L91'></a><a href='#L91'>91</a>
 <a name='L92'></a><a href='#L92'>92</a>
 <a name='L93'></a><a href='#L93'>93</a>
-<a name='L94'></a><a href='#L94'>94</a>
-<a name='L95'></a><a href='#L95'>95</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L94'></a><a href='#L94'>94</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -221,29 +220,28 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var fs = require("fs");
 var path = require("path");
@@ -314,8 +312,8 @@ module.exports.read = <span class="fstat-no" title="function not covered" >fu</s
 };
 &nbsp;
 //Get file state
-module.exports.stat = <span class="fstat-no" title="function not covered" >fu</span>nction(file) {
-<span class="cstat-no" title="statement not covered" >    return fs.statSync(file);</span>
+module.exports.stat = function(file) {
+    return fs.statSync(file);
 };
 &nbsp;
 //Remove file
@@ -324,20 +322,19 @@ module.exports.rm = function(file) {
 };
 &nbsp;
 //Remove directory
-module.exports.rmdir = <span class="fstat-no" title="function not covered" >fu</span>nction(fpath) {
-    var files = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >    if (module.exports.exist(fpath)) {</span>
-<span class="cstat-no" title="statement not covered" >        files = fs.readdirSync(fpath);</span>
-<span class="cstat-no" title="statement not covered" >        files.forEach(<span class="fstat-no" title="function not covered" >fu</span>nction(file, _index) {</span>
-            var curPath = <span class="cstat-no" title="statement not covered" >fpath + "/" + file;</span>
-<span class="cstat-no" title="statement not covered" >            if (module.exports.stat(curPath).isDirectory()) {</span>
-<span class="cstat-no" title="statement not covered" >                module.exports.rmdir(curPath);</span>
-            } else {
-<span class="cstat-no" title="statement not covered" >                module.exports.rm(curPath);</span>
-            }
-        });
-<span class="cstat-no" title="statement not covered" >        fs.rmdirSync(fpath);</span>
-    }
+module.exports.rmdir = function(fpath) {
+    var files = [];
+&nbsp;
+    files = fs.readdirSync(fpath);
+    files.forEach(function(file, _index) {
+        var curPath = fpath + "/" + file;
+        if (module.exports.stat(curPath).isDirectory()) {
+            module.exports.rmdir(curPath);
+        } else {
+            module.exports.rm(curPath);
+        }
+    });
+    fs.rmdirSync(fpath);
 };
 &nbsp;</pre></td></tr></table></pre>
 
@@ -346,7 +343,7 @@ module.exports.rmdir = <span class="fstat-no" title="function not covered" >fu</
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jan 15 2020 18:46:57 GMT+0800 (GMT+08:00)
+                at Mon Jan 20 2020 13:57:45 GMT+0800 (GMT+08:00)
             </div>
         </div>
         <script src="prettify.js"></script>
