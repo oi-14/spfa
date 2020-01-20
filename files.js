@@ -32,9 +32,13 @@ module.exports.cpdir = function(from, to) {
 };
 
 //List files with extname
+//PS: suffix is ".js" , not "js"
 module.exports.ls = function(dir, suffix) {
     var match = [];
     var files = fs.readdirSync(dir);
+    if (!suffix && suffix != "") {
+        return files;
+    }
     match = files.filter(function(file) {
         return path.extname(file) === suffix;
     });

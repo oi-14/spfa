@@ -3,8 +3,8 @@ var files = require("../../files");
 var fs = require("fs");
 describe("test files.js", function() {
     describe("test exist", function() {
-        it("files.exist('doesnotexistabcdefghijklmnopqrst') is false", function(done) {
-            files.exist("doesnotexistabcdefghijklmnopqrst").should.be.false();
+        it("files.exist('doesntexist') is false", function(done) {
+            files.exist("doesntexist").should.be.false();
             done();
         });
         it("files.exist('/') is true", function(done) {
@@ -13,9 +13,15 @@ describe("test files.js", function() {
         });
     });
     describe("test rm", function() {
-        it("files.rm('doesnotexistabcdefghijklmnopqrst') should throw an error", function(done) {
+        it("files.rm('doesntexist') should throw an error", function(done) {
             (function() {
-                files.rm("doesnotexistabcdefghijklmnopqrst");
+                files.rm("doesntexist");
+            }.should.throw());
+            done();
+        });
+        it("files.rm(__dirname+'existdir') should throw an error", function(done) {
+            (function() {
+                files.rm(__dirname+"existdir");
             }.should.throw());
             done();
         });
@@ -30,11 +36,10 @@ describe("test files.js", function() {
             done();
         });
     });
-
     describe("test rmdir", function() {
-        it("files.rmdir('doesnotexistabcdefghijklmnopqrst') should throw", function(done) {
+        it("files.rmdir('doesntexist') should throw an error", function(done) {
             (function() {
-                files.rmdir("doesnotexistabcdefghijklmnopqrst");
+                files.rmdir("doesntexist");
             }.should.throw());
             done();
         });
@@ -82,6 +87,28 @@ describe("test files.js", function() {
             (function() {
                 fs.rmdirSync(__dirname + "/newdir");
             }.should.not.throw());
+            done();
+        });
+    });
+    describe("test ls",function(){
+        it("files.ls('doesntexist') should throw an error",function(){
+            (function(){
+                files.ls("doesntexist");
+            }).should.throw();
+        });
+        it("files.ls(__dirname+'/lsdir') should return all the files",function(done){
+            var tar=["ls0.a","ls1.b","ls2.b","ls3.a","ls4.a","ls5"];
+            files.ls(__dirname+"/lsdir").should.eql(tar);
+            done();
+        });
+        it("files.ls(__dirname+'/lsdir','.a') should return the files with .a",function(done){
+            var tar=["ls0.a","ls3.a","ls4.a"];
+            files.ls(__dirname+"/lsdir",".a").should.eql(tar);
+            done();
+        });
+        it("files.ls(__dirname+'/lsdir','') should return the files with no extname",function(done){
+            var tar=["ls5"];
+            files.ls(__dirname+"/lsdir","").should.eql(tar);
             done();
         });
     });

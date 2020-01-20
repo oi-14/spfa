@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "mocha --recursive --reporter spec",
-    "coverage": "nyc --reporter html --reporter text npm test"
+    "coverage": "nyc --reporter text npm test"
   },
   "bin": "index.js",
   "author": "oi-14",

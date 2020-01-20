@@ -2,8 +2,8 @@ require("should");
 var yaml = require("../../yaml.js");
 describe("test yaml.js", function() {
     describe("test read", function() {
-        it("yaml.read('doesnotexistabcdefghijklmnopqrst')", function(done) {
-            should(yaml.read("doesnotexistabcdefghijklmnopqrst")).null();
+        it("yaml.read('doesntexist') is null", function(done) {
+            should(yaml.read("doesntexist")).null();
             done();
         });
         it("yaml.read(__dirname+'/example1.yaml') is correct", function(done) {
