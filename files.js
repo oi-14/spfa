@@ -66,6 +66,7 @@ module.exports.write = function(file, data, encoding) {
 };
 
 //Read file
+//!Returns a buffer
 module.exports.read = function(file, encoding) {
     return fs.readFileSync(file, encoding);
 };

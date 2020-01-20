@@ -112,4 +112,17 @@ describe("test files.js", function() {
             done();
         });
     });
+    describe("test read",function(){
+        it("files.read('doesntexist') should throw an error",function(done){
+            (function(){
+                files.read("doesntexist");
+            }).should.throw();
+            done();
+        });
+        it("files.read(__dirname+'/read.txt') is ok",function(done){
+            files.read(__dirname+"/read.txt").toString().should.equal("AAA");
+            done();
+        });
+    });
+    
 });
