@@ -79,16 +79,15 @@ module.exports.rm = function(file) {
 //Remove directory
 module.exports.rmdir = function(fpath) {
     var files = [];
-    if (module.exports.exist(fpath)) {
-        files = fs.readdirSync(fpath);
-        files.forEach(function(file, _index) {
-            var curPath = fpath + "/" + file;
-            if (module.exports.stat(curPath).isDirectory()) {
-                module.exports.rmdir(curPath);
-            } else {
-                module.exports.rm(curPath);
-            }
-        });
-        fs.rmdirSync(fpath);
-    }
+
+    files = fs.readdirSync(fpath);
+    files.forEach(function(file, _index) {
+        var curPath = fpath + "/" + file;
+        if (module.exports.stat(curPath).isDirectory()) {
+            module.exports.rmdir(curPath);
+        } else {
+            module.exports.rm(curPath);
+        }
+    });
+    fs.rmdirSync(fpath);
 };
