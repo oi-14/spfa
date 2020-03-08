@@ -22,10 +22,23 @@
 var connect = require("connect");
 var serveStatic = require("serve-static");
 var files = require("spfa-files");
-var yaml = require("./yaml");
+var yaml = require("spfa-yaml");
+var ejs = require("ejs");
+var marked = require("marked");
+var highlight = require("highlight.js");
+var frontMatter = require("front-matter");
+marked.setOptions({
+    highlight: function(code) {
+        return highlight.highlightAuto(code).value;
+    }
+});
 
-var version = "0.1.8";
+var version = "0.2.4";
 var argv = process.argv;
+
+function exist() {
+    return files.exist(process.cwd() + "/SPFA.tag");
+}
 
 function usage() {
     console.log("Usage: spfa [command]");
@@ -36,12 +49,11 @@ function usage() {
 }
 
 function generate() {
-    if (!files.exist(process.cwd() + "/SPFA.tag")) {
+    if (!exist()) {
         console.log("Please init first.");
         return;
     }
     var config = yaml.read(process.cwd() + "/config.yaml");
-    console.log(config);
     var theme;
     try {
         theme = config.theme ? config.theme : "spfa-theme-default";
@@ -51,25 +63,67 @@ function generate() {
         console.log("Using default theme");
         theme = "spfa-theme-default";
     }
-    var theme_gen;
-    try {
-        theme_gen = require(process.cwd() + "/node_modules/" + theme);
-    } catch (error) {
-        console.log("Theme doesn't exist or not installed !");
-        return;
+
+    var themePath = process.cwd() + "/theme/" + theme;
+    var layout = themePath + "/layout";
+    var source = themePath + "/source";
+    var postdir = process.cwd() + "/post";
+
+    files.cpdir(source, process.cwd() + "/public/lib");
+
+    var list = files.ls(postdir, ".md");
+    var dirList_ = files.ls(postdir, "");
+    var dirList = [];
+    for (let i = 0; i < dirList_.length; i++) {
+        var dirPath = postdir + "/" + dirList_[i];
+        if (files.isDirectory(dirPath)) {
+            dirList.push(dirList_[i]);
+        }
     }
+
+    for (let i = 0; i < list.length; i++) {
+        var item = list[i];
+        var name = item.replace(".md", "");
+        files.mkdir(process.cwd() + "/public/post/" + name);
+        if (dirList.includes(name)) {
+            files.cpdir(
+                postdir + "/" + name,
+                process.cwd() + "/public/post/" + name
+            );
+        }
+        var markdown = files.read(postdir + "/" + item).toString();
+        var fileInfo = frontMatter(markdown);
+        markdown = fileInfo.body;
+        var mdData = fileInfo.attributes;
+        mdData.html = marked(markdown);
+        mdData.codeTheme = "vs2015";
+        try {
+            ejs.renderFile(layout + "/post.ejs", mdData, function(err, data) {
+                files.write(
+                    process.cwd() + "/public/post/" + name + ".html",
+                    data
+                );
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    var indexData = {
+        title: "Welcome!",
+        html: "<p>Welcome!</p>"
+    };
     try {
-        theme_gen.gen(process.cwd());
+        ejs.renderFile(layout + "/index.ejs", indexData, function(err, page) {
+            files.write(process.cwd() + "/public/index.html", page);
+        });
     } catch (error) {
         console.log(error);
-        console.log("Invalid theme!");
-        return;
     }
     console.log("Finished!");
 }
 
 function server() {
-    if (!files.exist(process.cwd() + "/SPFA.tag")) {
+    if (!exist()) {
         console.log("Please init first.");
         return;
     }
@@ -87,7 +141,7 @@ function server() {
 }
 
 function init() {
-    if (files.exist(process.cwd() + "/SPFA.tag")) {
+    if (exist()) {
         console.log("Repository already exsist!");
         return;
     }
@@ -95,46 +149,49 @@ function init() {
     try {
         files.cpdir(__dirname + "/config", process.cwd());
     } catch (error) {
-        console.error(error.toString());
+        console.log(error);
     }
 
     files.mkdir(process.cwd() + "/public");
     files.mkdir(process.cwd() + "/public/post");
     files.mkdir(process.cwd() + "/public/lib");
     files.mkdir(process.cwd() + "/theme");
-    files.mkdir(process.cwd() + "/lib");
     files.mkdir(process.cwd() + "/post");
-    console.log("finished!");
-    console.log("Please run 'npm install' to install requirements");
+    console.log("Finished!");
 }
 
 function clean() {
+    if (!exist()) {
+        console.log("Please init first.");
+        return;
+    }
     files.rmdir(process.cwd() + "/public");
     console.log("cleaning /public");
     files.mkdir(process.cwd() + "/public");
     files.mkdir(process.cwd() + "/public/post");
     files.mkdir(process.cwd() + "/public/lib");
-    console.log("finished!");
+    console.log("Finished!");
 }
 
 function remove() {
-    if (!files.exist(process.cwd() + "/SPFA.tag")) {
+    if (!exist()) {
         console.log("Please init first.");
         return;
     }
-    console.log("removing / ...");
+
+    console.log("Removing ...");
     try {
         files.rmdir(process.cwd());
-        files.mkdir(process.cwd());
     } catch (error) {
-        console.log("removed!");
+        console.log("Removed!");
     }
-    console.log("finished!");
+    files.mkdir(process.cwd());
+    console.log("Finished!");
 }
 
 if (argv.length <= 2) {
     usage();
-    return;
+    exit(0);
 }
 
 console.log("Process started.");
