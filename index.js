@@ -21,7 +21,7 @@
 
 var connect = require("connect");
 var serveStatic = require("serve-static");
-var files = require("./files");
+var files = require("spfa-files");
 var yaml = require("./yaml");
 
 var version = "0.1.8";
@@ -29,10 +29,10 @@ var argv = process.argv;
 
 function usage() {
     console.log("Usage: spfa [command]");
-    console.log("spfa i : initialize spfa");
-    console.log("spfa g : generate files");
-    console.log("spfa s : start server");
-    console.log("spfa c : clean cache");
+    console.log("spfa init : initialize spfa");
+    console.log("spfa generate : generate files");
+    console.log("spfa server : start server");
+    console.log("spfa clean : clean cache");
 }
 
 function generate() {
