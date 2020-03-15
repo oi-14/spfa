@@ -19,19 +19,9 @@
 
 ////////////////////////////////////////////////////////////////////////
 
-var connect = require("connect");
-var serveStatic = require("serve-static");
+var express = require("express");
 var files = require("spfa-files");
-var yaml = require("spfa-yaml");
-var ejs = require("ejs");
-var marked = require("marked");
-var highlight = require("highlight.js");
-var frontMatter = require("front-matter");
-marked.setOptions({
-    highlight: function(code) {
-        return highlight.highlightAuto(code).value;
-    }
-});
+var generator = require("spfa-generator");
 
 var version = "0.2.4";
 var argv = process.argv;
@@ -53,72 +43,14 @@ function generate() {
         console.log("Please init first.");
         return;
     }
-    var config = yaml.read(process.cwd() + "/config.yaml");
-    var theme;
-    try {
-        theme = config.theme ? config.theme : "spfa-theme-default";
-    } catch (error) {
-        console.log("Detected error in config.yaml");
-        console.log("Please check the configuration of config.yaml");
-        console.log("Using default theme");
-        theme = "spfa-theme-default";
-    }
 
-    var themePath = process.cwd() + "/theme/" + theme;
-    var layout = themePath + "/layout";
-    var source = themePath + "/source";
-    var postdir = process.cwd() + "/post";
+    generator.generate(
+        process.cwd() + "/post",
+        process.cwd() + "/public",
+        process.cwd() + "/theme",
+        process.cwd() + "/config.yaml"
+    );
 
-    files.cpdir(source, process.cwd() + "/public/lib");
-
-    var list = files.ls(postdir, ".md");
-    var dirList_ = files.ls(postdir, "");
-    var dirList = [];
-    for (let i = 0; i < dirList_.length; i++) {
-        var dirPath = postdir + "/" + dirList_[i];
-        if (files.isDirectory(dirPath)) {
-            dirList.push(dirList_[i]);
-        }
-    }
-
-    for (let i = 0; i < list.length; i++) {
-        var item = list[i];
-        var name = item.replace(".md", "");
-        files.mkdir(process.cwd() + "/public/post/" + name);
-        if (dirList.includes(name)) {
-            files.cpdir(
-                postdir + "/" + name,
-                process.cwd() + "/public/post/" + name
-            );
-        }
-        var markdown = files.read(postdir + "/" + item).toString();
-        var fileInfo = frontMatter(markdown);
-        markdown = fileInfo.body;
-        var mdData = fileInfo.attributes;
-        mdData.html = marked(markdown);
-        mdData.codeTheme = "vs2015";
-        try {
-            ejs.renderFile(layout + "/post.ejs", mdData, function(err, data) {
-                files.write(
-                    process.cwd() + "/public/post/" + name + ".html",
-                    data
-                );
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    var indexData = {
-        title: "Welcome!",
-        html: "<p>Welcome!</p>"
-    };
-    try {
-        ejs.renderFile(layout + "/index.ejs", indexData, function(err, page) {
-            files.write(process.cwd() + "/public/index.html", page);
-        });
-    } catch (error) {
-        console.log(error);
-    }
     console.log("Finished!");
 }
 
@@ -127,15 +59,14 @@ function server() {
         console.log("Please init first.");
         return;
     }
-    var app = connect();
-    app.use("/", serveStatic(process.cwd() + "/public"));
+    var app = express();
+    app.use(express.static(process.cwd() + "/public"));
     var server = app.listen(3000);
-    server.on();
     console.log("Server is running on http://localhost:3000/");
     console.log("Press ^C to stop.");
     process.on("SIGINT", function() {
         console.log("Bye!");
-        server.off();
+        server.close();
         process.exit();
     });
 }
@@ -166,7 +97,7 @@ function clean() {
         return;
     }
     files.rmdir(process.cwd() + "/public");
-    console.log("cleaning /public");
+
     files.mkdir(process.cwd() + "/public");
     files.mkdir(process.cwd() + "/public/post");
     files.mkdir(process.cwd() + "/public/lib");
@@ -180,12 +111,7 @@ function remove() {
     }
 
     console.log("Removing ...");
-    try {
-        files.rmdir(process.cwd());
-    } catch (error) {
-        console.log("Removed!");
-    }
-    files.mkdir(process.cwd());
+    files.rm(process.cwd() + "/SPFA.tag");
     console.log("Finished!");
 }
 
