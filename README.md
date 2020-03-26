@@ -6,4 +6,4 @@ A simple blog generator.
 
 [![Gitter](https://badges.gitter.im/oi-14/spfa.svg)](https://gitter.im/oi-14/spfa?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Please watch our [wiki](https://github.com/oi-14/spfa/wiki)
+Please watch our [wiki](https://github.com/luisleee/spfa/wiki)
