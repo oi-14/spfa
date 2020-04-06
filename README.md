@@ -4,4 +4,6 @@ A simple blog generator.
 
 一个简单的博客生成器
 
-Please read our [wiki](https://github.com/luisleee/spfa-wiki)
+[Wiki](https://github.com/luisleee/spfa-wiki) | [Theme](https://github.com/luisleee/spfa-theme-default)
+
+[文档](https://github.com/luisleee/spfa-wiki) | [主题](https://github.com/luisleee/spfa-theme-default)
