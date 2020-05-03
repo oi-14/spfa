@@ -10,7 +10,7 @@ function clean() {
         (function rmdir(dir, callback) {
             fs.readdir(dir, (err, files) => {
                 function next(index) {
-                    if (index == files.length) {
+                    if (index === files.length) {
                         return fs.rmdir(dir, callback);
                     }
                     let newPath = path.join(dir, files[index]);
