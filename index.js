@@ -19,27 +19,35 @@
 
 ////////////////////////////////////////////////////////////////////////
 
+// The main file
+// The entry of spfa
+
+// Import modules
 var usage = require("./usage");
 var generate = require("./generate");
 var server = require("./server");
 var init = require("./init");
 var clean = require("./clean");
 
+// Read argument vector
 var argv = process.argv;
+// Show usage if the length of argv is less than 3
 if (argv.length <= 2) {
     usage();
     process.exit(0);
 }
+// Show message
 console.log("Process started.");
-if (argv[2] === "g" || argv[2] === "generate") {
+// TODO: Jump to the parent directory to find the nearest spfa directory
+if (argv[2] === "g" || argv[2] === "generate") { // Generate
     generate();
-} else if (argv[2] === "s" || argv[2] === "server") {
+} else if (argv[2] === "s" || argv[2] === "server") { // Serve
     server();
-} else if (argv[2] === "i" || argv[2] === "init") {
+} else if (argv[2] === "i" || argv[2] === "init") { // Initialize
     init();
-} else if (argv[2] === "c" || argv[2] === "clean") {
+} else if (argv[2] === "c" || argv[2] === "clean") { // Clean
     clean();
-} else {
+} else { // ELse, show usage
     console.log("No such operation!!!");
     usage();
 }
