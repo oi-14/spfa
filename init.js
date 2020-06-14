@@ -21,10 +21,6 @@
 // Initialize a directory for spfa
 
 var fs = require("fs");
-// Write the version
-// TODO: Make it easy to change.
-var version = "0.3.2";
-
 // TODO: Use git to initialize it
 function init() {
     // Check if it exists
@@ -37,7 +33,7 @@ function init() {
         // Write "SPFA.tag"
         fs.writeFile(
             process.cwd() + "/SPFA.tag",
-            "SPFA v" + version,
+            "SPFA",
             "utf8",
             function (err) {}
         );
