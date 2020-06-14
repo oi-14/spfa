@@ -28,6 +28,7 @@ var generate = require("./generate");
 var server = require("./server");
 var init = require("./init");
 var clean = require("./clean");
+var version = require("./version");
 
 // Read argument vector
 var argv = process.argv;
@@ -39,16 +40,23 @@ if (argv.length <= 2) {
 // Show message
 console.log("Process started.");
 // TODO: Jump to the parent directory to find the nearest spfa directory
-// TODO: Add an option to show version
-if (argv[2] === "g" || argv[2] === "generate") { // Generate
+if (argv[2] === "g" || argv[2] === "generate") {
+    // Generate
     generate();
-} else if (argv[2] === "s" || argv[2] === "server") { // Serve
+} else if (argv[2] === "s" || argv[2] === "server") {
+    // Serve
     server();
-} else if (argv[2] === "i" || argv[2] === "init") { // Initialize
+} else if (argv[2] === "i" || argv[2] === "init") {
+    // Initialize
     init();
-} else if (argv[2] === "c" || argv[2] === "clean") { // Clean
+} else if (argv[2] === "c" || argv[2] === "clean") {
+    // Clean
     clean();
-} else { // ELse, show usage
+} else if (argv[2] === "v" || argv[2] === "version") {
+    // Show version
+    version();
+} else {
+    // ELse, show usage
     console.log("No such operation!!!");
     usage();
 }
