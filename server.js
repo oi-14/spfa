@@ -20,15 +20,15 @@
 // The server module of spfa
 // Serve web pages
 
-var fs = require("fs");
 var express = require("express");
 function server() {
     // Build a server with express
     var app = express();
     app.use(express.static(process.cwd() + "/public"));
-    var server = app.listen(3000);
-    console.log("Server is running on http://localhost:3000/");
-    console.log("Press ^C to stop.");
+    var server = app.listen(3000, function () {
+        console.log("Server is running on http://localhost:3000/");
+        console.log("Press ^C to stop.");
+    });
     // Exit when ^C is pressed
     process.on("SIGINT", function () {
         console.log("Bye!");
