@@ -20,7 +20,7 @@
 function version() {
     var package = require("./package.json");
     var version = package.version;
-    console.log("spfa version: " + version);
+    console.log("spfa version: v" + version);
 }
 
 module.exports = version;

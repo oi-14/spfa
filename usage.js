@@ -26,6 +26,7 @@ function usage() {
     console.log("spfa generate : generate files");
     console.log("spfa server : start server");
     console.log("spfa clean : clean cache");
+    console.log("spfa version : show version");
 }
 
 // Export the function
