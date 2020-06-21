@@ -42,7 +42,7 @@ function check(path) {
                 const parent = dirname(path);
 
                 if (parent === path) {
-                    return;
+                    return false;
                 }
                 return check(parent);
             }

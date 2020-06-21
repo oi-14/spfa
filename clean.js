@@ -21,40 +21,43 @@
 // Clean the cache
 
 const fs = require("fs");
-const path = require("path");
-function clean() {
-    // Remove the "public" directory
-    (function rmdir(dir, callback) {
-        // Read a list of files
-        fs.readdir(dir, (err, files) => {
-            // Read next file
-            function next(index) {
-                // If it is the last file
-                if (index === files.length) {
-                    return fs.rmdir(dir, callback);
-                }
-                // Get full path
-                let newPath = path.join(dir, files[index]);
-                // Show stat
-                fs.stat(newPath, (err, stat) => {
-                    if (stat.isDirectory()) {
-                        // If it is a directory
-                        rmdir(newPath, () => next(index + 1));
-                    } else {
-                        // If not
-                        fs.unlink(newPath, () => next(index + 1));
-                    }
-                    // Call next
-                });
+const { join } = require("path");
+
+// Remove the "public" directory
+function rmdir(dir, callback) {
+    // Read a list of files
+    fs.readdir(dir, (err, files) => {
+        // Read next file
+        function next(index) {
+            // If it is the last file
+            if (index === files.length) {
+                return fs.rmdir(dir, callback);
             }
-            // Start from 0
-            next(0);
-        });
-    })(process.cwd() + "/public", function () {
+            // Get full path
+            let newPath = join(dir, files[index]);
+            // Show stat
+            fs.stat(newPath, (err, stat) => {
+                if (stat.isDirectory()) {
+                    // If it is a directory
+                    rmdir(newPath, () => next(index + 1));
+                } else {
+                    // If not
+                    fs.unlink(newPath, () => next(index + 1));
+                }
+                // Call next
+            });
+        }
+        // Start from 0
+        next(0);
+    });
+}
+
+function clean() {
+    rmdir(join(process.cwd(), "public"), function () {
         console.log("Cleaned!");
-        fs.mkdir(process.cwd() + "/public", function (err) {
-            fs.mkdir(process.cwd() + "/public/post", function (err) {});
-            fs.mkdir(process.cwd() + "/public/lib", function (err) {});
+        fs.mkdir(join(process.cwd(), "public"), function (err) {
+            fs.mkdir(join(process.cwd(), "public/post"), function (err) {});
+            fs.mkdir(join(process.cwd(), "public/lib"), function (err) {});
         });
     });
 }
