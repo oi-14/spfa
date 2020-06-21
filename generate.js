@@ -20,23 +20,13 @@
 // The generate module of spfa
 // Generate pages
 
-var generator = require("spfa-generator");
-var fs = require("fs");
+const generator = require("spfa-generator");
 function generate() {
-    // Check if it exists
-    fs.exists(process.cwd() + "/SPFA.tag", function (data) {
-        // If not
-        if (!data) {
-            console.log("Please init first.");
-            process.exit(0);
-        }
-        // Else, generate with spfa-generator
-        generator(
-            process.cwd() + "/post",
-            process.cwd() + "/public",
-            process.cwd() + "/theme",
-            process.cwd() + "/config.json"
-        );
-    });
+    generator(
+        process.cwd() + "/post",
+        process.cwd() + "/public",
+        process.cwd() + "/theme",
+        process.cwd() + "/config.json"
+    );
 }
 module.exports = generate;

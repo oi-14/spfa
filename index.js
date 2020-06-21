@@ -23,12 +23,14 @@
 // The entry of spfa
 
 // Import modules
-var usage = require("./usage");
-var generate = require("./generate");
-var server = require("./server");
-var init = require("./init");
-var clean = require("./clean");
-var version = require("./version");
+const fs = require("fs");
+const usage = require("./usage");
+const generate = require("./generate");
+const server = require("./server");
+const init = require("./init");
+const clean = require("./clean");
+const check = require("./check");
+const version = require("./version");
 
 // Read argument vector
 var argv = process.argv;
@@ -37,26 +39,53 @@ if (argv.length <= 2) {
     usage();
     process.exit(0);
 }
+var op = argv[2];
+
 // Show message
+// TODO: Use chalk to show log
 console.log("Process started.");
-// TODO: Jump to the parent directory to find the nearest spfa directory
-if (argv[2] === "g" || argv[2] === "generate") {
-    // Generate
-    generate();
-} else if (argv[2] === "s" || argv[2] === "server") {
-    // Serve
-    server();
-} else if (argv[2] === "i" || argv[2] === "init") {
-    // Initialize
-    init();
-} else if (argv[2] === "c" || argv[2] === "clean") {
-    // Clean
-    clean();
-} else if (argv[2] === "v" || argv[2] === "version") {
+
+if (op === "v" || op === "version") {
     // Show version
     version();
-} else {
-    // ELse, show usage
-    console.log("No such operation!!!");
+    process.exit(0);
+} else if (op === "h" || op === "help") {
+    // Show help
     usage();
+    process.exit(0);
 }
+
+check(process.cwd())
+    .then(function (path) {
+        if (!path) {
+            if (op === "i" || op === "init") {
+                // Initialize
+                init();
+                return;
+            }
+            usage();
+            return;
+        }
+        process.chdir(path);
+        if (op === "g" || op === "generate") {
+            // Generate
+            generate();
+        } else if (op === "s" || op === "server") {
+            // Serve
+            server();
+        } else if (op === "c" || op === "clean") {
+            // Clean
+            clean();
+        } else if (op === "i" || op === "init") {
+            // Initialize
+            init();
+        } else {
+            // ELse, show usage
+            console.log("No such operation!!!");
+            usage();
+        }
+    })
+    .catch(function (err) {
+        console.log(err);
+        process.exit(0);
+    });

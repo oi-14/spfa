@@ -20,50 +20,41 @@
 // The clean module of spfa
 // Clean the cache
 
-var fs = require("fs");
-var path = require("path");
+const fs = require("fs");
+const path = require("path");
 function clean() {
-    // Check if it exists
-    fs.exists(process.cwd() + "/SPFA.tag", function (data) {
-        // If not...
-        if (!data) {
-            console.log("Please init first.");
-            process.exit(0);
-        }
-        // Else...
-
-        // Remove the "public" directory
-        (function rmdir(dir, callback) {
-            // Read a list of files
-            fs.readdir(dir, (err, files) => {
-                // Read next file
-                function next(index) {
-                    // If it is the last file
-                    if (index === files.length) {
-                        return fs.rmdir(dir, callback);
-                    }
-                    // Get full path
-                    let newPath = path.join(dir, files[index]);
-                    // Show stat
-                    fs.stat(newPath, (err, stat) => {
-                        if (stat.isDirectory()) {
-                            // If it is a directory
-                            rmdir(newPath, () => next(index + 1));
-                        } else {
-                            // If not
-                            fs.unlink(newPath, () => next(index + 1));
-                        }
-                        // Call next
-                    });
+    // Remove the "public" directory
+    (function rmdir(dir, callback) {
+        // Read a list of files
+        fs.readdir(dir, (err, files) => {
+            // Read next file
+            function next(index) {
+                // If it is the last file
+                if (index === files.length) {
+                    return fs.rmdir(dir, callback);
                 }
-                // Start from 0
-                next(0);
-            });
-        })(process.cwd() + "/public", function () {
-            fs.mkdir(process.cwd() + "/public", function (err) {
-                fs.mkdir(process.cwd() + "/public/post", function (err) {});
-                fs.mkdir(process.cwd() + "/public/lib", function (err) {});
-            });
+                // Get full path
+                let newPath = path.join(dir, files[index]);
+                // Show stat
+                fs.stat(newPath, (err, stat) => {
+                    if (stat.isDirectory()) {
+                        // If it is a directory
+                        rmdir(newPath, () => next(index + 1));
+                    } else {
+                        // If not
+                        fs.unlink(newPath, () => next(index + 1));
+                    }
+                    // Call next
+                });
+            }
+            // Start from 0
+            next(0);
+        });
+    })(process.cwd() + "/public", function () {
+        console.log("Cleaned!");
+        fs.mkdir(process.cwd() + "/public", function (err) {
+            fs.mkdir(process.cwd() + "/public/post", function (err) {});
+            fs.mkdir(process.cwd() + "/public/lib", function (err) {});
         });
     });
 }
