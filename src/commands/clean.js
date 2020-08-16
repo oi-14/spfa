@@ -17,16 +17,31 @@
 
 ////////////////////////////////////////////////////////////////////////
 
-// The generate module of spfa
-// Generate pages
+// The clean module of spfa
+// Clean the cache
 
-const generator = require("spfa-generator");
-function generate() {
-    generator(
-        process.cwd() + "/post",
-        process.cwd() + "/public",
-        process.cwd() + "/theme",
-        process.cwd() + "/config.json"
-    );
+const { join } = require("path");
+const fs = require("fs/promises");
+const { rm } = require("../utils/files");
+const logger = require("../utils/logger");
+const getPath = require("../utils/getPath");
+
+async function clean() {
+    let path = await getPath(process.cwd());
+    if (!path) {
+        logger.error("Please initialize first!");
+        return;
+    }
+
+    process.chdir(path);
+    try {
+        await rm(join(process.cwd(), "public"));
+    } catch(err) {
+        logger.error(err);
+    }
+
+    logger.info("Finished!");
 }
-module.exports = generate;
+
+// Export the function
+module.exports = clean;

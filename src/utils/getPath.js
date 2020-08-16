@@ -18,37 +18,18 @@
 ////////////////////////////////////////////////////////////////////////
 
 const { join, dirname } = require("path");
-const fs = require("fs");
+const { exists } = require("./files");
 
-function check(path) {
+async function getPath(path) {
     const pkgPath = join(path, "config.json");
-    return new Promise(function (res, rej) {
-        fs.readFile(pkgPath, function (err, data) {
-            if (err) {
-                rej(err);
-            } else {
-                res(data);
-            }
-        });
-    })
-        .then((content) => {
-            const json = JSON.parse(content);
-            if (typeof json.spfa === "object") {
-                return path;
-            }
-        })
-        .catch((err) => {
-            if (err && err.code === "ENOENT") {
-                const parent = dirname(path);
-
-                if (parent === path) {
-                    return false;
-                }
-                return check(parent);
-            }
-
-            throw err;
-        });
+    if (!(await exists(pkgPath))) {
+        const parent = dirname(path);
+        if (parent === path) {
+            return false;
+        }
+        return await getPath(parent);
+    }
+    return path;
 }
 
-module.exports = check;
+module.exports = getPath;

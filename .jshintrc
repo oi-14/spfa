@@ -1,4 +1,13 @@
 {
     "esversion": 9,
-    "bitwise": false
+    "bitwise": true,
+    "undef": true,
+    "unused": true,
+    "curly": true,
+    "eqeqeq": true,
+    "funcscope": true,
+    "freeze": true,
+    "noarg": true,
+    "notypeof": true,
+    "varstmt": true
 }

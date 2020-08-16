@@ -17,23 +17,22 @@
 
 ////////////////////////////////////////////////////////////////////////
 
-// The server module of spfa
-// Serve web pages
+// The generate module of spfa
+// Generate pages
 
-var express = require("express");
-function server() {
-    // Build a server with express
-    var app = express();
-    app.use(express.static(process.cwd() + "/public"));
-    var server = app.listen(3000, function () {
-        console.log("Server is running on http://localhost:3000/");
-        console.log("Press ^C to stop.");
-    });
-    // Exit when ^C is pressed
-    process.on("SIGINT", function () {
-        console.log("Bye!");
-        server.close();
-        process.exit();
-    });
+const logger = require("../utils/logger");
+const getPath = require("../utils/getPath");
+const generator = require("../generator/index");
+
+async function generate() {
+    let path = await getPath(process.cwd());
+    if (!path) {
+        logger.error("Please initialize first!");
+        return;
+    }
+    process.chdir(path);
+    await generator(process.cwd());
+    logger.info("Finished!");
 }
-module.exports = server;
+
+module.exports = generate;
