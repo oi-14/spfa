@@ -21,18 +21,31 @@
 // Initialize a directory for spfa
 
 const spawn = require("cross-spawn");
+const check = require("../utils/check");
+const logger = require("../utils/logger");
 function init() {
-    const git = spawn.sync(
-        "git",
-        [
-            "clone",
-            "--recursive",
-            "https://github.com/luisleee/spfa-base.git",
-            ".",
-        ],
-        {
-            stdio: "inherit",
-        }
-    );
+    check(process.cwd())
+        .then(function (path) {
+            if (!path) {
+                const git = spawn.sync(
+                    "git",
+                    [
+                        "clone",
+                        "--recursive",
+                        "https://github.com/luisleee/spfa-base.git",
+                        ".",
+                    ],
+                    {
+                        stdio: "inherit",
+                    }
+                );
+            } else {
+                logger.error("Already exist");
+            }
+        })
+        .catch(function (err) {
+            logger.error(err);
+            process.exit(0);
+        });
 }
 module.exports = init;

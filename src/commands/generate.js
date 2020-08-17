@@ -20,13 +20,29 @@
 // The generate module of spfa
 // Generate pages
 
-const generator = require("spfa-generator");
+const generator = require("../generator/index");
+const { join } = require("path");
+const check = require("../utils/check");
+const logger = require("../utils/logger");
+
 function generate() {
-    generator(
-        process.cwd() + "/post",
-        process.cwd() + "/public",
-        process.cwd() + "/theme",
-        process.cwd() + "/config.json"
-    );
+    check(process.cwd())
+        .then(function (path) {
+            if (!path) {
+                logger.error("Please initialize first!");
+                return;
+            }
+            process.chdir(path);
+            generator(
+                join(process.cwd(), "post"),
+                join(process.cwd(), "public"),
+                join(process.cwd(), "theme"),
+                join(process.cwd(), "config.json")
+            );
+        })
+        .catch(function (err) {
+            logger.error(err);
+            process.exit(0);
+        });
 }
 module.exports = generate;
