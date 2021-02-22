@@ -21,7 +21,6 @@
 // Clean the cache
 
 const { join } = require("path");
-const fs = require("fs/promises");
 const { rm } = require("../utils/files");
 const logger = require("../utils/logger");
 const getPath = require("../utils/getPath");
