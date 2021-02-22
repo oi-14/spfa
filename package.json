@@ -11,15 +11,6 @@
     "express": "^4.17.1",
     "front-matter": "^4.0.2"
   },
-  "devDependencies": {
-    "mocha": "^8.1.1",
-    "nyc": "^15.1.0",
-    "should": "^13.2.3"
-  },
-  "scripts": {
-    "test": "mocha --recursive --reporter spec",
-    "coverage": "nyc --reporter text npm test"
-  },
   "bin": "src/index.js",
   "author": "luisleee",
   "license": "GPL-3.0-or-later",

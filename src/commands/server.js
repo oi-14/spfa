@@ -32,7 +32,6 @@ async function server() {
         return;
     }
     process.chdir(path);
-
     // Build a server with express
     let app = express();
     app.use(express.static(join(process.cwd(), "public")));
