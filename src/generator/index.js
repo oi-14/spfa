@@ -24,13 +24,14 @@ const fs = require("fs/promises");
 const { promisify } = require("util");
 const getInfo = require("../utils/getInfo");
 const { cp, exists } = require("../utils/files");
-const logger = require("../utils/logger");
+const logger = require("../utils/logger")();
 const renderFile = promisify(ejs.renderFile);
 
 // Use b as the default value if a is false value
 function def(a, b) {
     return a ? a : b;
 }
+
 
 // Generates post
 // First argument: an item of the file table
@@ -188,4 +189,4 @@ async function generate(dir) {
     );
 }
 
-module.exports = generate;
+module.exports = { generate, index, post, def };
