@@ -40,30 +40,32 @@ class Spfa {
     }
 
     async startup() {
-
         // Todo: Put it in a specific place
-        this.console.register("generate", this.generate);
+        this.console.register("generate", () => {
+            this.generate();
+        });
         this.console.setAlias("generate", "g");
 
-        this.console.register("init", this.init);
+        this.console.register("init", () => {
+            this.init();
+        });
         this.console.setAlias("init", "i");
 
-        this.console.register("clean", this.clean);
+        this.console.register("clean", () => {
+            this.clean();
+        });
         this.console.setAlias("clean", "c");
 
-        this.console.register("serve", this.serve);
+        this.console.register("serve", () => {
+            this.serve();
+        });
         this.console.setAlias("serve", "s");
 
         // Todo: Do it automatically
         if (this.args.hasOwnProperty("_")) {
-            if (this.args["_"].includes("generate")) {
-                await this.generate();
-            } else if (this.args["_"].includes("serve")) {
-                await this.serve();
-            } else if (this.args["_"].includes("clean")) {
-                await this.clean();
-            } else if (this.args["_"].includes("init")) {
-                await this.init();
+            let c = this.args._.shift();
+            if (c && this.console.get(c)) {
+                await this.console.get(c)();
             }
         }
     }
