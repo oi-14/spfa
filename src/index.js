@@ -23,55 +23,16 @@
 // The entry of spfa
 
 // Import modules
-const { program } = require("commander");
-const logger = require("./utils/logger")();
+const minimist = require("minimist");
 const getPath = require("./utils/getPath");
 const Spfa = require("./spfa/index");
 
 getPath(process.cwd()).then((baseDir) => {
-    let spfa = new Spfa(baseDir, null);
+    let args = minimist(process.argv.slice(2));
+    let spfa = new Spfa(baseDir, args);
 
-    program.version(require("../package.json").version);
-    program.description("A blog generater");
-    program.name("spfa");
-
-    program
-        .command("generate")
-        .description("generate files")
-        .action(() => {
-            spfa.generate();
-        })
-        .alias("g");
-    program
-        .command("serve")
-        .description("start server")
-        .action(() => {
-            spfa.serve();
-        })
-        .alias("s");
-    program
-        .command("init")
-        .description("initialize spfa")
-        .action(() => {
-            spfa.init();
-        })
-        .alias("i");
-    program
-        .command("clean")
-        .description("clean cache")
-        .action(() => {
-            spfa.clean();
-        })
-        .alias("c");
-
-    logger.info("Process started.");
-    program.parse(process.argv);
-});
-
-// Exit when ^C is pressed
-process.on("SIGINT", function () {
-    logger.info("\nBye!");
-    process.exit();
+    spfa.startup();
 });
 
 // TODO: Write tests.
+// TODO: Use jsdoc.

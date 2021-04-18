@@ -17,40 +17,91 @@
 
 ////////////////////////////////////////////////////////////////////////
 
-const logger = require("../utils/logger")();
 const { generate } = require("../generator/index");
 const spawn = require("cross-spawn");
-const { join } = require("path");
+const { sep, join } = require("path");
 const { rm } = require("../utils/files");
 const express = require("express");
+const logger = require("../utils/logger");
+const Console = require("./console");
 
 class Spfa {
-    constructor(baseDir, args) {
-        this.baseDir = baseDir;
+    constructor(base = process.cwd(), args = {}) {
+        this.baseDir = base + sep;
+        this.log = logger();
+        this.args = args;
+
+        this.publicDir = join(base, "public") + sep;
+        this.postDir = join(base, "post") + sep;
+        this.themeDir = join(base, "theme") + sep;
+        this.configFile = join(base, "config.json");
+
+        this.console = new Console();
+    }
+
+    async startup() {
+
+        // Todo: Put it in a specific place
+        this.console.register("generate", this.generate);
+        this.console.setAlias("generate", "g");
+
+        this.console.register("init", this.init);
+        this.console.setAlias("init", "i");
+
+        this.console.register("clean", this.clean);
+        this.console.setAlias("clean", "c");
+
+        this.console.register("serve", this.serve);
+        this.console.setAlias("serve", "s");
+
+        // Todo: Do it automatically
+        if (this.args.hasOwnProperty("_")) {
+            if (this.args["_"].includes("generate")) {
+                await this.generate();
+            } else if (this.args["_"].includes("serve")) {
+                await this.serve();
+            } else if (this.args["_"].includes("clean")) {
+                await this.clean();
+            } else if (this.args["_"].includes("init")) {
+                await this.init();
+            }
+        }
+    }
+
+    version() {
+        console.log(require("../package.json").version);
     }
 
     finish() {
-        logger.info("Finished!");
+        this.log.info("Finished!");
+    }
+
+    start() {
+        this.log.info("Process started.");
     }
 
     async generate() {
+        this.start();
+
         if (!this.baseDir) {
-            logger.error("Please initialize first!");
+            this.log.error("Please initialize first!");
             return;
         }
 
         try {
-            await generate(this.baseDir);
+            await generate(this);
         } catch (err) {
-            logger.error(err);
+            this.log.error(err);
         }
 
         this.finish();
     }
 
     async clean() {
+        this.start();
+
         if (!this.baseDir) {
-            logger.error("Please initialize first!");
+            this.log.error("Please initialize first!");
             return;
         }
 
@@ -63,8 +114,10 @@ class Spfa {
         this.finish();
     }
     async init() {
+        this.start();
+
         if (this.baseDir) {
-            logger.error("Already exist");
+            this.log.error("Already exist");
             return;
         }
 
@@ -83,16 +136,18 @@ class Spfa {
                 }
             );
         } catch (err) {
-            logger.error(err);
+            this.log.error(err);
             return;
         }
 
         this.finish();
     }
     async serve() {
+        this.start();
+
         // Find the root directory of it
         if (!this.baseDir) {
-            logger.error("Please initialize first!");
+            this.log.error("Please initialize first!");
             return;
         }
         // Build a server with express

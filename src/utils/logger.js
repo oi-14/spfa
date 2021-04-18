@@ -24,14 +24,6 @@ class Logger {
         }
         console.log(chalk.redBright("Error ") + msg);
     }
-
-    start() {
-        
-    }
-
-    finish() {
-        this.info("Finished!");
-    }
 }
 
 function loggerFactory(options){

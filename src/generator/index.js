@@ -32,7 +32,7 @@ function def(a, b) {
     return a ? a : b;
 }
 
-
+// TODO: Receive a context object as the argument
 // Generates post
 // First argument: an item of the file table
 // Second argument: path to "public"
@@ -58,6 +58,7 @@ async function post(info, output, title, themePath, themeConfig, spfaConfig) {
     logger.log(output + " is generated.");
 }
 
+// TODO: Receive a context object as the argument
 // Generates the "index.html" in "public"
 // First argument: path to "index.html"
 // Second argument: title of the page
@@ -83,36 +84,40 @@ async function index(output, title, info, themePath, themeConfig, spfaConfig) {
     logger.log(output + " is generated.");
 }
 
+// Check the existance of the folders
+// If it doesn't exist, create it.
+async function checkDirectory(dir) {
+    if (!(await exists(dir))) {
+        await fs.mkdir(dir);
+    }
+}
+
 // Generates all the pages
 // First argument: path to the repository
-async function generate(dir) {
-    let input = join(dir, "post");
-    let output = join(dir, "public");
-    let themeBase = join(dir, "theme");
-    let spfaConfigFile = join(dir, "config.json");
+// Todo: Make it better.
 
-    // Read "config.json"
+async function generate(ctx) {
+    let input = ctx.postDir;
+    let output = ctx.publicDir;
+    let themeBase = ctx.themeDir;
+
+    // Todo: move it to class Spfa
+    // Todo: Use a default config if no config is found
+    // Read config
     let spfaConf;
     try {
-        spfaConf = require(spfaConfigFile);
+        spfaConf = require(ctx.configFile);
     } catch (error) {
-        logger.error("Theme loading error.");
-        logger.error("Do you really have a theme?");
-    }
-
-    if (!(await exists(output))) {
-        await fs.mkdir(output);
+        logger.error("Config loading error.");
     }
 
     let postOut = join(output, "post");
-    if (!(await exists(postOut))) {
-        await fs.mkdir(postOut);
-    }
-
     let libOut = join(output, "lib");
-    if (!(await exists(libOut))) {
-        await fs.mkdir(libOut);
-    }
+    Promise.all([
+        checkDirectory(output),
+        checkDirectory(postOut),
+        checkDirectory(libOut),
+    ]);
 
     // Default theme
     let themeName = def(spfaConf.theme, "spfa-theme-default");
