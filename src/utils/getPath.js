@@ -20,6 +20,8 @@
 const { join, dirname } = require("path");
 const { exists } = require("./files");
 
+// Todo: Get a better name
+
 async function getPath(path) {
     const pkgPath = join(path, "config.json");
     if (!(await exists(pkgPath))) {

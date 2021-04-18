@@ -24,6 +24,14 @@ class Logger {
         }
         console.log(chalk.redBright("Error ") + msg);
     }
+
+    start() {
+        this.info("Process started.");
+    }
+
+    finish() {
+        this.info("Finished!");
+    }
 }
 
 function loggerFactory(options){

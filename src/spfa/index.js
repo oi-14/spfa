@@ -41,6 +41,7 @@ class Spfa {
 
     async startup() {
         // Todo: Put it in a specific place
+        // Todo: Write more description
         this.console.register("generate", () => {
             this.generate();
         });
@@ -61,6 +62,11 @@ class Spfa {
         });
         this.console.setAlias("serve", "s");
 
+        this.console.register("version", () => {
+            this.version();
+        });
+        this.console.setAlias("version", "v");
+
         // Todo: Do it automatically
         if (this.args.hasOwnProperty("_")) {
             let c = this.args._.shift();
@@ -71,19 +77,11 @@ class Spfa {
     }
 
     version() {
-        console.log(require("../package.json").version);
-    }
-
-    finish() {
-        this.log.info("Finished!");
-    }
-
-    start() {
-        this.log.info("Process started.");
+        this.log.info("Version:" + require("../package.json").version);
     }
 
     async generate() {
-        this.start();
+        this.log.start();
 
         if (!this.baseDir) {
             this.log.error("Please initialize first!");
@@ -96,11 +94,11 @@ class Spfa {
             this.log.error(err);
         }
 
-        this.finish();
+        this.log.finish();
     }
 
     async clean() {
-        this.start();
+        this.log.start();
 
         if (!this.baseDir) {
             this.log.error("Please initialize first!");
@@ -113,10 +111,10 @@ class Spfa {
             logger.error(err);
         }
 
-        this.finish();
+        this.log.finish();
     }
     async init() {
-        this.start();
+        this.log.start();
 
         if (this.baseDir) {
             this.log.error("Already exist");
@@ -142,10 +140,10 @@ class Spfa {
             return;
         }
 
-        this.finish();
+        this.log.finish();
     }
     async serve() {
-        this.start();
+        this.log.start();
 
         // Find the root directory of it
         if (!this.baseDir) {

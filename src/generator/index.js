@@ -41,6 +41,7 @@ function def(a, b) {
 // Fifth arugment: path to theme config
 // Sixth argument: path to "config.json"
 async function post(info, output, title, themePath, themeConfig, spfaConfig) {
+    title = def(title, "Welcome");
     // Set the context of ejs
     let ejsContext = {
         title,
@@ -59,6 +60,7 @@ async function post(info, output, title, themePath, themeConfig, spfaConfig) {
 }
 
 // TODO: Receive a context object as the argument
+// Todo: Work as an individual module
 // Generates the "index.html" in "public"
 // First argument: path to "index.html"
 // Second argument: title of the page
@@ -97,11 +99,10 @@ async function checkDirectory(dir) {
 // Todo: Make it better.
 
 async function generate(ctx) {
-    let input = ctx.postDir;
     let output = ctx.publicDir;
     let themeBase = ctx.themeDir;
 
-    // Todo: move it to class Spfa
+    // Todo: Create a class to deal with config.
     // Todo: Use a default config if no config is found
     // Read config
     let spfaConf;
@@ -146,12 +147,13 @@ async function generate(ctx) {
     // Get file info
     let info;
     try {
-        info = await getInfo(input);
+        info = await getInfo(ctx.postDir);
     } catch (err) {
         logger.error(err);
         return;
     }
 
+    // Todo: This should be in another place...
     let promises = [];
     // Enumerate the file table
     for (const name in info) {
@@ -159,7 +161,7 @@ async function generate(ctx) {
         if (info.hasOwnProperty(name)) {
             // Copy if the post is with a directory
             if (info[name].hasDirectory) {
-                let from = join(input, name);
+                let from = join(ctx.postDir, name);
                 let to = join(postOut, name);
                 try {
                     await cp(from, to);
@@ -173,7 +175,7 @@ async function generate(ctx) {
             let promise = post(
                 info[name],
                 join(output, "post", name + ".html"),
-                def(spfaConf.title, "Welcome"),
+                spfaConf.title,
                 themeDir,
                 themeConf,
                 spfaConf
@@ -194,4 +196,4 @@ async function generate(ctx) {
     );
 }
 
-module.exports = { generate, index, post, def };
+module.exports = { generate,  def };

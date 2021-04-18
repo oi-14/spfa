@@ -22,10 +22,12 @@
 // The main file
 // The entry of spfa
 
-// Import modules
 const minimist = require("minimist");
 const getPath = require("./utils/getPath");
 const Spfa = require("./spfa/index");
+
+// Todo: Handle errors better.
+// TODO: Make a better theme, which is hot-plugging. ^_^
 
 getPath(process.cwd()).then((baseDir) => {
     let args = minimist(process.argv.slice(2));
